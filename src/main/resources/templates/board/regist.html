@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layout.html}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AdminLTE 3 | Dashboard</title>
+
+</head>
+
+<body>
+<div layout:fragment="content">
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="card">
+                    <div class="card-header">
+                      <h3 class="card-title">Regist Form</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                      <div class="row">
+                        <!-- left column -->
+                        <div class="col-md-12">
+                          <!-- general form elements -->
+                          <div class="card card-primary">
+                            <div class="card-header">
+                              <h3 class="card-title">Quick Example</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <!-- 등록 폼 -->
+                            <!-- form start -->
+                            <form method="post" name="frm" class="formData">
+                              <div class="card-body">
+                                <div class="form-group">
+                                  <label for="exampleInputEmail1">TITLE</label>
+                                  <input type="text" class="form-control" name="title">
+                                </div>
+                                <div class="form-group">
+                                  <label for="exampleInputPassword1">CONTENT</label>
+                                  <input type="text" class="form-control" name="content">
+                                </div>
+                                <div class="form-group">
+                                  <label for="exampleInputPassword1">WRITER</label>
+                                  <input type="text" class="form-control" name="writer">
+                                </div>
+                                <div class="form-group">
+                                  <label for="exampleInputFile">FILE INPUT</label>
+                                  <div class="input-group">
+                                    <div class="custom-file">
+                                      <input type="file" multiple class="custom-file-input uploadInput" id="exampleInputFile" name="upload">
+                                      <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                    </div>
+                                    <div class="input-group-append">
+                                      <span class="input-group-text" id="">UPLOAD</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="uploadHidden"></div>
+                              <!-- /.card-body -->
+                              
+                              <div class="uploadWrap">
+                                <ul class="uploadUL"></ul>
+                              </div>
+                              <div class="card-footer">
+                              </form>
+                                <button type="button" class="btn btn-primary btnAdd">Submit</button>
+                                <a href="/board/list" class="btn btn-danger">CANCLE</a>
+                              </div>
+                          </div>
+
+                          <div class="modal" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-body"></div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+
+                          <!-- /.card -->
+                        </div>
+                        <!--/.col (left) -->
+                      </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer clearfix">
+                    </div>
+                  </div>
+                  <!-- /.card -->
+          </section>
+          <!-- /.content -->
+          <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+          <script src="/js/file.js"></script>
+  </div>
+  <!-- /.content-wrapper -->
+
+
+
+
+  <script layout:fragment="script" th:inline="javascript">
+    const btnAdd = document.querySelector(".btnAdd")
+    const uploadInput = document.querySelector(".uploadInput")
+    const uploadUL = document.querySelector(".uploadUL")
+    const uploadHidden = document.querySelector(".uploadHidden")
+
+    // 파일 업로드
+    uploadInput.addEventListener("change", (e) => {
+
+      // file 없으면 리턴
+      if(!uploadInput.files || uploadInput.files.length === 0) {
+        return
+      }
+
+      // 웹에서 폼 데이터를 쉽게 생성하고 전송할 수 있도록 도와주는 기능 제공
+      const formData = new FormData()
+      console.dir(uploadInput)
+
+      // formData에 파일 넣기
+      for(let i=0; i < uploadInput.files.length; i++) {
+        // files라는 이름으로 폼데이터에 파일을 하나씩 저장
+        formData.append("files", uploadInput.files[i])
+      }
+
+      // http 헤더 타입 지정
+      const header = {headers: {"Content-Type": "multipart/form-data"}}
+
+      // 파일 업로드 axios 호출
+      axios.post("http://localhost:8080/api/files/upload", formData, header).then(res => {
+        const result = res.data
+        console.dir("result: " + result)
+        showImages(result)
+      })
+    })
+    // / 파일 업로드
+
+    // 파일 등록
+    btnAdd.addEventListener("click", (e) => {
+      // console.log(frm.title.value.trim().length)
+      if(frm.title.value.trim().length <= 0) {
+        alert("제목을 입력해주세요.")
+      } else if (frm.content.value.trim().length <= 0) {
+        alert("내용을 입력해주세요.")
+      } else if (frm.writer.value.trim().length <= 0) {
+        alert("작성자를 입력해주세요.")
+      } else {
+
+        // li 모두 선택
+        const liArr = uploadUL.querySelectorAll("li")
+
+        // li 갯수만큼 for문 돌려서 input hidden으로 심음
+        let str = ""
+        for(let liObj of liArr) {
+          const originName = liObj.getAttribute("data-originName")
+          str += `<input type="hidden" name="fileNames" value="${originName}">`
+        }
+        uploadHidden.innerHTML += str
+        frm.submit()
+
+      }
+    }, false)
+  </script>
+
+</body>
+</html>

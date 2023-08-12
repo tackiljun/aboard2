@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.astro.aboard2.mappers.ReplyMapper">
+
+    <select id="replyList" resultType="org.astro.aboard2.dto.ReplyDTO">
+        select rno , bno , reply , replyer , replydate
+        from tbl_reply0 where bno=#{bno} 
+    </select>
+
+    <insert id="insertReply">
+        insert into tbl_reply0 (bno, reply, replyer) values (#{bno}, #{reply}, #{replyer})
+      
+        <selectKey resultType="int" keyProperty="rno" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+	</insert>
+
+    <select id="readReply" resultType="org.astro.aboard2.dto.ReplyDTO">
+        select rno, bno, reply, replyer from tbl_reply0 where rno = #{rno}
+    </select>
+
+    <update id="modifyReply">
+		update tbl_reply0 set reply = #{reply} where bno=#{bno} and rno=#{rno}
+	</update>
+
+    <!-- <update id="modifyReply">
+        update tbl_reply0 set reply = #{reply} where rno = #{rno}
+    </update> -->
+
+    <delete id="deleteReply">
+        delete from tbl_reply0 where rno = #{rno}
+    </delete>
+
+</mapper>

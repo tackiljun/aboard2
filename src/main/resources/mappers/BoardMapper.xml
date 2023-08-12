@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.astro.aboard2.mappers.BoardMapper">
+
+    <select id="getList" resultType="org.astro.aboard2.dto.BoardDTO">
+        select * from tbl_board order by bno desc limit #{skip}, #{size}
+    </select>
+
+    <select id="getOne" resultType="org.astro.aboard2.dto.BoardDTO">
+        select * from tbl_board where bno= #{bno}
+    </select>
+
+    <insert id="insertOne" parameterType="org.astro.aboard2.dto.BoardDTO">
+        insert into tbl_board (title, content, writer) values (#{title},#{content},#{writer})
+
+        <selectKey resultType="int" keyProperty="bno" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="modifyOne">
+        update tbl_board set title=#{title}, content=#{content} where bno = #{bno}
+    </update>
+
+    <delete id="deleteOne">
+        delete from tbl_board where bno = #{bno}
+    </delete>
+
+    <select id="listCount" resultType="long">
+        select count(*) from (select bno from tbl_board where bno > 0 limit #{countEnd}) board
+    </select>
+
+    <insert id="setBoardImg">
+        insert into tbl_board_image (image_tno, images, ord) values (#{image_tno}, #{image}, #{ord})
+    </insert>
+
+</mapper>
