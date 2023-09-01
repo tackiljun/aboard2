@@ -67,6 +67,7 @@ public class BoardController {
         log.info("GET ||||| ----------MODIFY----------");
 
         return "/board/modify";
+        
     }
     
     //////////////////////////////////////////////////////////////////////////////////////
@@ -81,7 +82,7 @@ public class BoardController {
         log.info("POST ||||| ----------REGIST----------");
 
         return "redirect:/board/list";
-        
+
     }
 
     // modify.
