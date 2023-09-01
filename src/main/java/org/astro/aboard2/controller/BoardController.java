@@ -38,6 +38,7 @@ public class BoardController {
         log.info("GET ||||| ----------LIST----------");
 
         model.addAttribute("pageResponseDTO", pageResponseDTO);
+        
     }
 
     // read.
@@ -49,7 +50,7 @@ public class BoardController {
         log.info("GET ||||| ----------READ----------");
 
         return "/board/read";
-        
+
     }
 
     // regist.
