@@ -92,6 +92,7 @@ public class BoardController {
         log.info("POST ||||| ----------MODIFY----------");
 
         return "redirect:/board/read/" + bno;
+        
     }
 
     // delete.
@@ -103,6 +104,7 @@ public class BoardController {
         log.info("POST ||||| ----------DELETE----------");
 
         return "redirect:/board/list";
+
     }
-    
+
 }
