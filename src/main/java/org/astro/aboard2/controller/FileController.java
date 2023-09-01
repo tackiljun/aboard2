@@ -140,4 +140,5 @@ public class FileController {
         return Map.of("result", "success");  
         // 리턴타입이 MAP인 이유? -> 제이슨형태로 처리하려고.
     }
+    
 }
