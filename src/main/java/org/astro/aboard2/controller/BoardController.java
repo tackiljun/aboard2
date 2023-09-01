@@ -21,6 +21,7 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 @Log4j2
 public class BoardController {
+
     //////////////////////////////////////////////////////////////////////////////////////
     // 의존성 주입.
     private final BoardService boardService;
@@ -103,4 +104,5 @@ public class BoardController {
 
         return "redirect:/board/list";
     }
+    
 }
