@@ -49,6 +49,7 @@ public class BoardController {
         log.info("GET ||||| ----------READ----------");
 
         return "/board/read";
+        
     }
 
     // regist.
@@ -56,7 +57,7 @@ public class BoardController {
     public void getRegist(BoardDTO boardDTO) {
 
         log.info("GET ||||| ----------REGIST----------");
-        
+
     }
 
     // modify.
