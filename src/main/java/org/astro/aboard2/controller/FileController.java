@@ -89,13 +89,17 @@ public class FileController {
                     Thumbnailator.createThumbnail(saveFile,thumbFile, 100,100);
           
                     result.setImg(true);
+
                 } // end if.
                 resultList.add(result);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
         } // end for.
         return resultList;
+
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////
@@ -114,6 +118,7 @@ public class FileController {
             return ResponseEntity.internalServerError().build();
         }
         return ResponseEntity.ok().headers(headers).body(resource);
+
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////
@@ -139,6 +144,7 @@ public class FileController {
 
         return Map.of("result", "success");  
         // 리턴타입이 MAP인 이유? -> 제이슨형태로 처리하려고.
+        
     }
     
 }
