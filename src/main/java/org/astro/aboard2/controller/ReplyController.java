@@ -27,6 +27,7 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 @RequestMapping("/replies/")
 public class ReplyController {
+
     //////////////////////////////////////////////////////////////////////////////
     // 의존성 주입.
     private final ReplyService replyService;
@@ -39,6 +40,7 @@ public class ReplyController {
         log.info("GET ||||| ----------getReplyList----------");
 
         return replyService.getReplyList(pageRequestDTO, bno);
+        
     }
 
     //////////////////////////////////////////////////////////////////////////////
@@ -59,6 +61,7 @@ public class ReplyController {
             log.info("POST ||||| ----------insertReply----------");
 
             return Map.of("RESULT", rno);
+
     }
 
     //////////////////////////////////////////////////////////////////////////////
@@ -68,6 +71,7 @@ public class ReplyController {
         log.info("GET ||||| ----------readReply----------");
 
         return replyService.readReply(rno);
+
     }
 
     //////////////////////////////////////////////////////////////////////////////
@@ -89,6 +93,7 @@ public class ReplyController {
         log.info("PUT ||||| ----------modifyReply----------");
 
         return replyService.modifyReply(replyDTO);
+
     }
     
 }
